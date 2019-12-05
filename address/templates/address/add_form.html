@@ -1,0 +1,31 @@
+{% extends 'base/index.html' %} {% load static %} {% block pagecontent %}
+
+
+<style>
+ 
+#paybtn{
+    margin-left: 200px;
+    margin-top: -50px;
+}   
+</style>
+<div class="container" align="center">
+<form method='POST' action="{% url 'address:address' %}"> 
+        <fieldset>
+     <legend>Shipping Adress:</legend>
+              
+            
+    {% csrf_token %}
+    {% if address_type %}
+    <input type='hidden' name='address_type' value='{{ address_type }}' />
+    {% endif %}
+    {{ form.as_p }}
+    <button type='submit' class="btn btn-info">Submit</button>
+</fieldset>
+    </form>
+    
+</div>
+   
+
+{% endblock %}
+
+

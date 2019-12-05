@@ -1,0 +1,33 @@
+{% extends 'base/index.html' %}
+{% load static %}
+
+{% block pagecontent %}
+
+
+{% for obj in object_list %}
+{% include 'products/card.html' with instance=obj %}  
+{% endfor %}
+
+ <div class="container">
+<div class='row  mb-3'>
+        {% if query %}
+        <div class='col-12' >
+            Results for <b>{{ query }}</b>
+            <hr/>
+        </div>
+        
+    
+        <div class='col-12 col-md-6 mx-auto py-5'>
+                {%  include 'search/search-form.html' %}
+    
+        </div>
+        <div class='col-12'>
+            <hr>
+        </div>
+        {% endif %}
+    </div>
+    
+</div>     
+
+ {% endblock %}
+

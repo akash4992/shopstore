@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+<!-- Add this-->
+
+
+    {% block pagecontent %}
+    <div class="table-div">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Celebrity Name</th>
+            <th>Net Worth</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for celebrity in data %}
+          {data}
+            <tr>
+              <td>{{ celebrity.title }}</td>
+              <td>$ {{ celebrity.description }}</td> <!--Modify this line-->
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include 'base/var_bar.html' %}
+    {% endblock %}
+

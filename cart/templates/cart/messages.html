@@ -1,0 +1,52 @@
+{% if messages %}
+
+<style type="text/css">
+    div.messages{
+        background-color: #ff6b6b;
+        color: #f7fff7;
+    }
+    ul.messages{
+        list-style-type: none;
+    }
+
+
+    div.messages{
+        background-color: #ff6b6b;
+        color: #f7fff7;
+        width: 22%;
+        height:50px;
+        margin-bottom: 30px;
+        font-size: 18px;
+        text-align: center;
+        transition-property: background, border-radius;
+        transition-duration: .2s, 1s;
+        transition-timing-function: linear, ease-in;
+        transition-delay: 0s, 1s;
+      
+}
+   
+
+    ul.messages{
+        list-style-type: none;
+       
+    }
+</style>
+
+
+<script>
+    $(document).ready(function() {
+        setTimeout(function(){ $('#message').hide(); }, 2000);
+});
+
+</script>
+
+<div class='messages' id="message">
+
+<ul class="messages">
+{% for message in messages %}
+<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% if "html_safe" in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</li>
+{% endfor %}
+</ul>
+
+</div>
+{% endif %}

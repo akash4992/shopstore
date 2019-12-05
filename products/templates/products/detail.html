@@ -1,0 +1,27 @@
+ {% extends 'base/index.html' %} {% load static %} {% block pagecontent %}
+
+<section class="page-section portfolio" id="portfolio">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+
+        <div class="card" style="width:400px">
+          {% if object.image %}
+          <img src='{{ object.image.url }}' class='img-fluid' /> {% endif %}
+          <div class="card-body">
+            <h3>{{ object.title }}</h3>
+            {{ object.description|linebreaks }}
+            <br/>
+
+            <a href="#" class="btn btn-danger">Buy Now</a>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

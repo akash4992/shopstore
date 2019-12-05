@@ -1,0 +1,20 @@
+{% extends 'base/index.html' %} {% load static %} {% block pagecontent %}
+<style>
+       .link {
+            color:brown;
+            text-decoration-line: none;
+            font-size: 20px;
+        }
+    </style>
+<div class="container">
+    <h3>Lif Of   Category Type</h3>
+    {% for obj in object_list %}
+<ul class="list-group">
+   
+  <li class="list-group-item"><a href="{% url 'category:category_product'  obj.pk  %}" class="link">{{obj.categorytype}}</a></li>
+        
+ </ul>
+ {% endfor %}
+</div>
+{% endblock %}
+

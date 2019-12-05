@@ -1,0 +1,21 @@
+{% extends 'base/index.html' %}
+{% load static %}
+
+
+
+{% block pagecontent %}
+{% include 'base/header.html' %}
+{% include 'cart/messages.html' %}
+ 
+<section class="page-section portfolio" id="portfolio">
+        <div class="container">
+            <div class="row">
+                
+{% for obj in object_list %}
+{% include 'products/card.html' with instance=obj %}  
+   
+ {% endfor %}
+</div>
+</div>
+</section>
+{% endblock %}

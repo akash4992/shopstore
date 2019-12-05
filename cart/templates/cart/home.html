@@ -1,0 +1,89 @@
+{% extends 'base/index.html' %} {% load static %} {% block pagecontent %}
+{% load add_tags  %}
+{% block scripts %}
+  {{ block.super }}
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script>
+
+function myConfirm() {
+  var result = confirm("Are You Sure?");
+  if (result==true) {
+   return true;
+  } else {
+   return false;
+  }
+}
+
+
+    
+    
+    </script>
+{% endblock scripts %}
+<div class="container">
+        {% include 'cart/messages.html' %}
+        <div class="row">
+            <table class="table table-hover table-bordered text-center">
+                <thead>
+                    <tr>
+                     
+                        <th  style="text-align: center" scope="col">No.</th>
+                        <th style="text-align: center" scope="col">Item</th>
+                        <th style="text-align: center" scope="col">Price</th>
+
+                    </tr>
+                </thead>
+
+                {% for item in order.get_cart_items %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        {{ item.product.title }}
+                        <span class="pull-right">
+                            <a href="{% url 'cart:delete_item' item.id %}"  class="text-danger" onclick="return myConfirm();">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </span>
+                    </td>
+                    <td>{{ item.product.price }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan=3> You have not added any items yet.</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    {% if order.get_cart_total != None %}
+                    <td colspan=2>
+                        <strong class="pull-right">Order Total:</strong>
+                    </td>
+
+                    <td colspan=1>
+                        RS:
+                        <strong>{{ order.get_cart_total }}</strong>
+                    </td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td colspan=1>
+                        <a href="/" class="btn btn-warning pull-left">
+                            {% if order %}Continue Shopping{% else %}Add Items to Cart {% endif %}
+                        </a>
+                    </td>
+                    <td colspan=2>
+                        {% if order.get_cart_items %}
+                        <a href="{% url 'address:address_list' %}" class="pull-right btn btn-primary">Proceed To Checkout</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+   
+        
+    </section>
+
+</div>
+{% endblock %}
+
+
