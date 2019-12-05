@@ -6,7 +6,7 @@ from .models import OrderItem,Order,Transaction
 from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from cart.extra import generate_order_id, transact, generate_client_token
+from cart.extra import generate_order_id
 from django.conf import settings
 import datetime
 import stripe
