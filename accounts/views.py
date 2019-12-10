@@ -15,18 +15,22 @@ from django.contrib.auth.views import LoginView
 from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
 
-from cart.models import Order
+from cart.models import OrderProduct
 from .models import User
 
 
 def my_profile(request):
-	my_user_profile = User.objects.filter(username=request.user.username).first()
-	my_orders = Order.objects.filter(is_ordered=True, owner=my_user_profile)
-	context = {
-		'my_orders': my_orders
-	}
+  
+    key = request.session.get('cart_id')
+    my_user_profile =  User.objects.filter(username=request.user.username).first()
+    my_orders = OrderProduct.objects.filter(session_key=key,is_ordered=True,owner=my_user_profile) 
+    context ={
+        "my_orders":my_orders
+    }
+    
+    return render(request, "accounts/profile.html",context)
 
-	return render(request, "accounts/profile.html", context)
+
 # Create your views here.
 
 class Register(generic.CreateView):

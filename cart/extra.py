@@ -4,7 +4,7 @@ import string
 from datetime import date
 import datetime
 import braintree
-from cart.models import OrderItem
+from cart.models import ProductCart
 
 def generate_order_id():
     date_str = date.today().strftime('%Y%m%d')[2:] + str(datetime.datetime.now().second)

@@ -1,0 +1,525 @@
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="style.css" >
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/script.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:300,400" rel="stylesheet">
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+<script src="https://use.fontawesome.com/3158daa833.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+</head>
+><style>
+   {
+    padding: 0;
+    margin: 0;
+    font-family: "Nunito", sans-serif;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #B5B5B5;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #B5B5B5;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #B5B5B5;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #ccc;
+}
+
+
+body {
+    max-width: 100%;
+    height: 100vh;
+    padding: 25px;
+    background-color: #262626;
+    
+}
+
+
+.list {
+    height: 100px;
+    overflow:auto;
+    margin-bottom: 45px;
+    }
+.app {
+position: absolute;
+border-radius: 5px;
+max-width: 300px;
+text-align: center;
+z-index:100;
+padding-bottom: 30px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.63);
+padding-bottom: 25px;
+overflow: hidden;
+background-color: rgb(255, 255, 255);
+display:none;
+}
+
+.app p {
+color: #838383;
+margin: 4% auto;
+width: 260px;
+padding: 20px;
+}
+
+h2 {
+    font-size: 25px;
+    padding-bottom: 25px;
+    line-height: 0;
+    color: #09A7BA;
+    font-weight: 300;
+    padding: 20px;
+    padding-top: 40px;
+}
+
+
+.usertitle {
+    font-size: 20px;
+    padding-bottom: 25px;
+    line-height: 0;
+    color: #09A7BA;
+    font-weight: 300;
+    padding: 20px;
+    padding-top: 40px;
+}
+
+
+.fa {
+    margin-top: 25px;
+    color: rgba(0,0,0,0.15);
+    font-size: 3em;
+}
+
+ul {
+    margin-top: 25px;
+    padding: 0 20px;
+    padding-bottom: 60px;
+}
+
+li {
+    list-style: none;
+    font-size: 1.2rem;
+    line-height: 3rem;
+    color: #616161;
+    max-width: 300px;
+}
+
+li:hover {
+    color: red;
+    cursor: pointer;
+    background-color: #efefef;
+}
+
+li:after {
+    font-family: FontAwesome;
+    color: #FFFFFF;
+    content: "\f00d";
+    margin-left:5px;
+    position: absolute;
+    display:none;
+}
+
+li:hover:after {
+    font-family: FontAwesome;
+    color: red;
+    content: "\f00d";
+}
+
+
+
+button {
+    font-weight: 300;
+    margin: 20px 0;
+    line-height: 2.5rem;    
+    font-size: 1.7rem;
+    width: 2.5rem;
+    background-color: #7A7B7B;
+    border: none;
+    color: #ffffff; 
+    border-radius: 50%;
+}
+
+#send {
+    font-weight: 300;
+    margin: 20px 0;
+    line-height: 2.5rem;    
+    font-size: 1.7rem;
+    width: 2.5rem;
+    font-size: 1rem;
+    background-color: #09A7BA;
+    border: none;
+    color: #ffffff; 
+    width: 80%;
+    border-radius: 5px;
+    cursor: pointer;
+  font-weight: 600;
+}
+
+#send:hover {
+    background-color: #B6B6B6;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #B6B6B6;
+    cursor: pointer;
+}
+
+button:focus {
+    outline-width: 0;
+}
+
+#inputshop, #inputname, #inputtel, #inputemail {
+    line-height: 2rem;
+    font-size: 1.2rem;
+    padding: 0 10px;
+    border-top: none;
+    border-bottom: 1px solid #ccc;
+    border-left: none;
+    border-right: none;
+    background-color: transparent;
+    color: #616161;
+    text-align: center;
+}
+
+#inputshop:focus, #inputname:focus, #inputtel:focus, #inputemail:focus {
+    border-bottom: 1px solid #8888AC;
+    outline-width: 0;
+    
+}
+
+#market {
+background-color: rgba(255, 255, 255, 0.8);
+border-radius: 5px;
+max-width: 300px;
+text-align: center;
+padding: 60px 0;
+margin: 4% auto;
+top: 20%;
+box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.items:hover {
+    background-color:#00C5B6;
+
+}
+
+
+#inputname  {
+}
+
+#inputtel {
+margin-bottom: 30px;
+}
+
+
+placeholder {
+    text-align:center;
+}
+form {
+    text-align:center;
+}
+
+#contactform {
+left: 42%;
+top: 15%;
+position: absolute;
+background-color: #fff;
+width: 306px;
+line-height: 3em;
+margin: auto;
+text-align: center;
+box-shadow: 0 0 10px rgba(141, 141, 141, 0.5);
+border-radius: 5px;
+}
+#contactform p {
+color: #838383;
+}
+
+.closepopup {
+cursor: pointer;
+font-size: 25px;
+width: 20%;
+left: 80%;
+font-size: 16px;
+top: -1%;
+position: relative;
+color: #B9B3B3;
+position: absolute;
+}
+
+.openpopup {
+width: 80%;
+margin: auto;
+font-size: 14px;
+box-shadow: 0 0 5px rgba(134, 134, 134, 0.6);
+background-color: #FFF;
+border-radius: 5px;
+background-color: #09A7BA;
+color:#fff;
+padding: 10px;
+cursor: pointer;
+font-weight: 700;
+transition-duration:1s;
+}
+
+.openpopup2 {
+width: 80%;
+margin: auto;
+font-size: 14px;
+box-shadow: 0 0 5px rgba(134, 134, 134, 0.6);
+background-color: #FFF;
+border-radius: 5px;
+background-color: #797D7E;
+color:#fff;
+padding: 10px;
+margin-top:10px;
+cursor: pointer;
+font-weight: 700;
+transition-duration:1s;
+}
+
+.openpopup1:hover {
+background-color: #09A7BA;
+}
+
+.tooltipshop, .tooltipshop2 {
+color: #fff;
+padding: 5px;
+width: 50%;
+border-radius: 5px;
+background: #db0e0ecc;
+box-shadow: 0 0 10px rgb(141, 141, 141);
+position: absolute;
+width: 160px;
+margin: -15px -90px auto;
+opacity:0;
+}
+
+.tooltipshop:after {
+font-family: FontAwesome;
+color: #fff;
+content: "\f129";
+margin-left: 8px;
+}
+
+.tooltipshop2:after {
+font-family: FontAwesome;
+color: #fff;
+content: "\f129";
+margin-left: 8px;
+}
+
+#tray {
+height:70px;
+width:70px;
+background-color:#09A7BA;
+display:block;
+border-radius:50%;
+text-align:center;
+cursor:pointer;
+transition-duration:0.5s;
+position: absolute;
+left: 25px;
+bottom: 25px;
+box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+#tray:hover {
+box-shadow: 0 0 10px rgb(141, 141, 141);
+}
+
+#tray i {
+color: #ffffff;
+margin-top: 18px;
+font-size: 30px;
+}
+.count {
+position: absolute;
+background-color: rgba(212,7,10,1.00);
+border-radius: 50%;
+width: 22px;
+height: 22px;
+padding: 2px;
+color: #fff;
+font-weight: 300;
+display:none;
+}
+
+.closewindow {
+color: #B5B5B5;
+position: relative;
+float: right;
+left: -3%;
+cursor:pointer;
+width: 20px;
+border-radius: 1000%;
+height: 20px;
+text-align: center;
+margin-top: 5px;
+}
+
+.closewindow span {
+    position:relative;
+    bottom: 2px;
+}
+
+.items {
+  cursor:pointer;
+}
+
+#contactform form {
+  padding: 10px;
+}
+
+
+
+
+</style>
+<body>
+<div class="app">
+<div class="closewindow">
+<span>x</span>
+</div>
+    <h2>Корзина</h2>
+        <i class="fa fa-shopping-basket fa-3x" aria-hidden="true"></i>
+    <p>Выберите необходимые товары. После отправки заявки мы сообщим вам информацию по наличию и актуальную стоимость.</p>
+  <div class="tooltipshop">Не вписан артикул</div>
+  <div class="tooltipshop2">Выберите товар</div>
+    <div class="app-body">
+        <ul class="list">           
+        </ul>
+    </div>
+    <div class="openpopup">
+Перейти к оформлению
+</div>
+ <div class="openpopup2">
+Очистить корзину
+</div>
+ </div>
+  <div class="b-popup" id="popup1">
+    <div id="contactform">
+<div class="closepopup">
+x
+</div>
+<h2 class="usertitle">Заполните заявку</h2>
+       <i class="fa fa-user-circle fa-5x" aria-hidden="true"></i>
+    <form>
+        <input id="inputname" type="text" placeholder="Имя" >
+        <input id="inputemail" type="text" placeholder="Email">
+        <input id="inputtel" type="text" placeholder="Телефон" >
+        <button type="button" id="send" onClick="functionform" action="sendmessege.php">Отправить заявку</button>
+    </form>
+    </div>
+ </div>
+  <div id="tray">
+  <div class="count">
+  
+  </div>
+<i class="fa fa-shopping-basket fa-2x" aria-hidden="true"></i>
+ </div>
+ <div id="market">
+ <div class="items">Товар 1</div>
+ <div class="items">Товар 2</div>
+ <div class="items">Товар 3</div>
+ </div>
+</body>
+<script>
+  $(document).ready(function(){
+    
+    
+    var textInput = $('#inputshop').val();
+    
+    $(".b-popup").hide();
+    
+    
+    if (localStorage.getItem('shoplistlocal')) {
+        $('.list').html(localStorage.getItem('shoplistlocal'));
+    }
+            
+    
+    $(".items").on("click",function(e){
+        $('.count').css({"display":"block"});
+        var itemvalue =  $(this).html();
+        $('.list').append('<li    class="item">'+$(this).html()+'</li>');
+        var shoplistlocal = $('.list').html();
+        localStorage.setItem('shoplistlocal', shoplistlocal);
+        return false;
+    });
+
+                
+    $(".list").on("click", ".item", function () {
+        $(this).remove();
+          $('.count').css({"display":"block"});
+          var itemlength = $(".app-body li").length;
+          $('.count').text(itemlength);
+          var shoplistlocal = $('.list').html();
+        localStorage.setItem('shoplistlocal', shoplistlocal);
+        return false;
+    });
+    
+                     
+     $(".closepopup").click(function(){
+     $(".b-popup").hide(200);
+    });
+    
+
+    $(".openpopup").click(function(){
+        if ($('.item').is('li')) {
+        $(".b-popup").fadeIn(200);}
+    else {
+        $(".tooltipshop2").animate({marginLeft: "20px",easing: "easeout",opacity:"1"},300);
+        $(".tooltipshop2").delay(900).animate({opacity:"0",marginLeft: "-90px"});
+    }
+    });
+    $("#send").click(function(){
+        var itemname = $("#inputname").val();
+        var itememail = $("#inputemail").val();
+        var itemtel = $("#inputtel").val();
+        var shopbox = $(".app-body").html();
+        $.ajax({
+            url: "sendmessege.php",
+            type: "post",
+            dataType: "json",
+              data: {
+                 "itemname": user_name,
+                 "itememail": user_email,
+                 "itemtel": user_comment,
+                 "shopbox": user_money
+              },
+             success: function() {
+                 alert("Ваше сообщение отправлено!");
+                 
+                  }
+    });
+        });
+        
+        $('.closewindow').click(function(){
+            $('.app').fadeOut(500);
+        }); 
+            $('#tray').click(function(){
+            $('.app').fadeIn(500);
+        }); 
+        
+        
+    $('.items').click(function() {
+        var itemlength = $(".app-body li").length;
+        $('.count').text(itemlength);   
+    });
+        
+        
+    $(".openpopup2").click(function() {
+        window.localStorage.clear();
+        $('.list').children().remove();
+        $('.count').hide();
+        return false;
+    });     
+});
+</script>
+</html>
+
+
+

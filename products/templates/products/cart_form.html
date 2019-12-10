@@ -1,0 +1,15 @@
+<form method='POST' action='/cart/{{instance.pk}}/' class="form my-2 my-lg-0 search-form">
+    {% csrf_token %}
+    <div class='input-group'>
+      <input class="form-control" type="hidden" name="product_id" value='{{instance.pk}}'>
+      <input class="form-control" type="hidden" name="product_title" value='{{instance.title}}'>
+      <input class="form-control" type="hidden" name="product_price" value='{{instance.price}}'>
+      
+      </div>
+       <button type="submit" class="btn btn-warning">Add To Cart</button>
+     
+       <a href="{% url   'cart:buy_now' instance.pk  %}" class="btn btn-danger">Buy Now</a>
+
+   
+
+</form>

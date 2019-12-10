@@ -36,6 +36,7 @@ def product_list_view(request):
 
 class ProductListView(ListView):
     '''List of the products'''
+   
     template_name = "products/list.html"
 
   
@@ -46,6 +47,8 @@ class ProductListView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         request = self.request
+        key = request.session.get('cart_id')
+        print("the key",key)
         return Product.objects.all()
 
 
@@ -62,18 +65,21 @@ class ProductDetailView(DetailView):
         request = self.request
         pk = self.kwargs.get('pk')
         instance = Product.objects.get(id=pk)
-        
+        return instance
         if instance:
-            
-            view,created  = View.objects.get_or_create(
-                product=instance
-            )
-            if view:
-                view.user.add(request.user)
-                view.view_counts +=1
-                
-                view.save()
             return instance
+            
+        #     view,created  = View.objects.get_or_create(
+        #         product=instance
+        #     )
+        #     if view:
+        #         view.user.add(request.user)
+        #         view.view_counts +=1
+                
+        #         view.save()
+        #         return instance
+        #     else:
+        #         pass
         else:
             raise Http404("Product doesn't exist")
         

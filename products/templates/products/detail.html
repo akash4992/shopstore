@@ -10,10 +10,11 @@
           <img src='{{ object.image.url }}' class='img-fluid' /> {% endif %}
           <div class="card-body">
             <h3>{{ object.title }}</h3>
-            {{ object.description|linebreaks }}
+           <p> {{ object.description|linebreaks }}</p>
+           <h3>{{ object.price}}</h3>
             <br/>
 
-            <a href="#" class="btn btn-danger">Buy Now</a>
+            <a href="{% url   'cart:buy_now' object.pk  %}" class="btn btn-danger">Buy Now</a>
           </div>
         </div>
       </div>
