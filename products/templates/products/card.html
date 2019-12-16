@@ -8,82 +8,24 @@
     </a>
     {% endif %}
     <div class="card-body">
-      <h4 class="card-title" id ="title">{{ instance.title }}</h4>
+  
+      <h4 class="card-title" id ="title">{{ instance.product.title }}</h4>
       <p class="card-text">{{ instance.description|linebreaks|truncatewords:14 }}</p>
       <h4 class="card-price" id ="products">{{ instance.price }}</h4>
+    
       <div>
-      {% include 'products/cart_form.html' with instance=obj %}  
+     
+
 
     </div>
     </div>
   </div>
 </div>
-
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   
 
-     <script>
-        var cart = [];
-        $(function () {
-            if (localStorage.cart)
-            {
-                cart = JSON.parse(localStorage.cart);
-                showCart();
-            }
-        });
+<style>
 
-        function addToCart() {
-            var price = document.getElementById("products");
-            console.log(price)
-            var name = $("#title").text();
-            var qty = $("#qty").val();
-
-            // update qty if product is already present
-            for (var i in cart) {
-                if(cart[i].Product == name)
-                {   
-                    cart[i].Price = price 
-                    cart[i].Qty = qty;
-                    showCart();
-                    saveCart();
-                    return;
-                }
-            }
-            // create JavaScript Object
-            var item = { Product:name,  Price: price, Qty: qty }; 
-            cart.push(item);
-            saveCart();
-            showCart();
-        }
-
-        function deleteItem(index){
-            cart.splice(index,1); // delete item at index
-            showCart();
-            saveCart();
-        }
-
-        function saveCart() {
-            if ( window.localStorage)
-            {
-                localStorage.cart = JSON.stringify(cart);
-            }
-        }
-
-        function showCart() {
-            if (cart.length == 0) {
-                $("#cart").css("visibility", "hidden");
-                return;
-            }
-
-            $("#cart").css("visibility", "visible");
-            $("#cartBody").empty();
-            for (var i in cart) {
-                var item = cart[i];
-                var row = "<tr><td>" + item.Product + "</td><td>" +
-                             item.Price + "</td><td>" + item.Qty + "</td><td>"
-                             + item.Qty * item.Price + "</td><td>"
-                             + "<button onclick='deleteItem(" + i + ")'>Delete</button></td></tr>";
-                $("#cartBody").append(row);
-            }
-        }
-    </script>
+.card{
+ margin-top: 20px;
+}
+</style>

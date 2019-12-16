@@ -5,7 +5,7 @@ from products.models import Product
 
 
 class View(models.Model):
-    user = models.ManyToManyField(User)
+    user = models.ManyToManyField(User,blank=True,null=True)
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
     view_counts = models.IntegerField(default=0)
 

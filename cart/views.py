@@ -2,7 +2,7 @@ from accounts.models import User
 from products.models import Product
 from django.shortcuts import render, redirect, get_object_or_404
 from cart.extra import generate_order_id
-from .models import Transaction,ProductCart,OrderProduct,OrderItem,Order
+from .models import Transaction,ProductCart,OrderProduct
 from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -13,7 +13,7 @@ import stripe
 from django.db import IntegrityError
 from django.http import Http404
 from django.contrib.auth.models import AnonymousUser
-
+from django.http import JsonResponse
 stripe.api_key = settings.STRIPE_SECRET_KEY
 # Create your vews here.
 
@@ -31,22 +31,62 @@ def get_user_pending_order(request,key):
         
    
 
+# @login_required(login_url='/accounts/login/')
+# def buy_now(request,**kwargs):
+    
+#     user_profile = get_object_or_404(User,pk= request.user.pk)
+ 
+#     product = Product.objects.filter(id=kwargs.get('pk', "")).first()
+    
+#     order_item, status = OrderItem.objects.get_or_create(product=product)
+
+#     user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
+#     user_order.items.add(order_item)
+#     if status:
+#         user_order.ref_code = generate_order_id()
+#         user_order.save()
+        
+#     return redirect(reverse('address:address_list'))
+
+
+
 @login_required(login_url='/accounts/login/')
 def buy_now(request,**kwargs):
-    
-    user_profile = get_object_or_404(User,pk= request.user.pk)
- 
-    product = Product.objects.filter(id=kwargs.get('pk', "")).first()
-    
-    order_item, status = OrderItem.objects.get_or_create(product=product)
+    if request.method == 'POST':
+        product_id=request.POST['product_id']
+        product =  Product.objects.filter(id=product_id).first()
+        product_title = request.POST['product_title']
+        product_price = request.POST['product_price']
+     
+        data  = ProductCart(product =product,
+                            amount=product_price,
+                            productname= product_title,
+                            is_ordered=  False, )
+        data.ref_code = generate_order_id()
+        try:
+            data.save()
+        except:
+            pass
+        cart = settings.CART_SESSION_ID
+        the_id = request.session['cart_id'] = cart
+    if  request.user.is_authenticated:
+        user_profile = get_object_or_404(User,pk= request.user.pk)
+        if user_profile:
+            user_profile = get_object_or_404(User,pk= request.user.pk)
+            order_item ,created = ProductCart.objects.get_or_create(product=product_id)
+            user_order,created = OrderProduct.objects.get_or_create(owner=user_profile ,is_ordered=False,defaults = {'session_key': the_id})
+            
 
-    user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
-    user_order.items.add(order_item)
-    if status:
-        user_order.ref_code = generate_order_id()
-        user_order.save()
+            user_order.items.add(order_item)
+            user_order.ref_code = generate_order_id()
+            user_order.save()
         
     return redirect(reverse('address:address_list'))
+
+
+
+
+
 
 
 
@@ -164,27 +204,87 @@ def success(request, **kwargs):
 
 
 
+
+
+
+# def add_to_cart(request,**kwargs):
+#     request.session.set_expiry(864000)
+    
+    
+#     if request.POST.get('action') == 'post':
+#         size = request.POST.get('size')
+#         import pdb; pdb.set_trace()
+#         product_id=request.POST['product_id']
+#         product =  Product.objects.filter(id=product_id).first()
+#         product_title = request.POST['product_title']
+#         product_price = request.POST['product_price']
+     
+#         data  = ProductCart(product =product,
+#                             amount=product_price,
+#                             productname= product_title,
+#                             is_ordered=  False, )
+#         data.ref_code = generate_order_id()
+#         try:
+#             data.save()
+#         except:
+#             pass
+    
+        
+#         cart = settings.CART_SESSION_ID
+#         the_id = request.session['cart_id'] = cart
+#     if not request.user.is_authenticated:
+#         order_item ,created = ProductCart.objects.get_or_create(product=product_id)
+#         user_order,created = OrderProduct.objects.get_or_create(defaults = {'owner': None},is_ordered=False,session_key=the_id)
+#         user_order.items.add(order_item)
+#         user_order.ref_code = generate_order_id()
+#         user_order.save()
+        
+#     else:
+#         user_profile = get_object_or_404(User,pk= request.user.pk)
+#         if user_profile:
+#             user_profile = get_object_or_404(User,pk= request.user.pk)
+#             order_item ,created = ProductCart.objects.get_or_create(product=product_id)
+#             user_order,created = OrderProduct.objects.get_or_create(owner=user_profile ,is_ordered=False,defaults = {'session_key': the_id})
+            
+
+#             user_order.items.add(order_item)
+#             user_order.ref_code = generate_order_id()
+#             user_order.save()
+        
+#     messages.success(request, "item added to cart")
+        
+#     return redirect(reverse('products:list'))
+
+
 def add_to_cart(request,**kwargs):
     request.session.set_expiry(864000)
     
-    
-    if request.method == 'POST':
-        product_id=request.POST['product_id']
+
+    if request.POST.get('action') == 'post':
+        psize = request.POST.get('size')
+        
+        product_id= request.POST.get('product_id')
         product =  Product.objects.filter(id=product_id).first()
-        product_title = request.POST['product_title']
-        product_price = request.POST['product_price']
+        product_title = request.POST.get('product_title')
+        product_price = request.POST.get('product_price')
      
-        data  = ProductCart(product =product,
+        
+        
+
+        update,data  = ProductCart.objects.get_or_create(product =product,
                             amount=product_price,
                             productname= product_title,
-                            is_ordered=  False, )
-        data.ref_code = generate_order_id()
-        try:
-            data.save()
-        except IntegrityError as e:
-            pass
-
+                            is_ordered=  False,
+                            size= psize ,
+                             )
+        update.ref_code = generate_order_id()
+        if data:
+            update.Quantity = update.Quantity+1
+            update.save()
+        else:
+            update.save()
         
+    
         
         cart = settings.CART_SESSION_ID
         the_id = request.session['cart_id'] = cart
@@ -206,11 +306,10 @@ def add_to_cart(request,**kwargs):
             user_order.items.add(order_item)
             user_order.ref_code = generate_order_id()
             user_order.save()
+    messages.success(request, "item added to cart")     
+    return JsonResponse({'message': "item added to cart"})   
         
-    messages.success(request, "item added to cart")
-        
-    return redirect(reverse('products:list'))
-
+    
 
 	
     

@@ -44,7 +44,7 @@ class Product(models.Model):
     description     = models.TextField()
     price           = models.DecimalField(decimal_places=2, max_digits=20, default=39.99)
     image           = models.ImageField(upload_to='images/') 
-    featured        = models.BooleanField(default=False)
+    
     active          = models.BooleanField(default=True)
     timestamp       = models.DateTimeField(auto_now_add=True)
     category        = models.ForeignKey(CategoryType,on_delete=models.CASCADE)
@@ -53,3 +53,16 @@ class Product(models.Model):
     
     def __str__(self):
         return self.title
+
+
+class Productsize(models.Model):
+    product= models.ForeignKey(Product,on_delete=models.CASCADE,related_name='details')
+    value = models.CharField(max_length=50)
+    stock= models.IntegerField(default=1)
+    items_sold = models.IntegerField(default=0)
+
+
+    def __str__(self):
+        return self.value 
+    class Meta:
+        ordering = ('value',)

@@ -1,15 +1,32 @@
-<form method='POST' action='/cart/{{instance.pk}}/' class="form my-2 my-lg-0 search-form">
+<!-- <form method='POST' action='/cart/{{instance.id}}/' class="form my-2 my-lg-0 search-form">
     {% csrf_token %}
     <div class='input-group'>
       <input class="form-control" type="hidden" name="product_id" value='{{instance.pk}}'>
       <input class="form-control" type="hidden" name="product_title" value='{{instance.title}}'>
       <input class="form-control" type="hidden" name="product_price" value='{{instance.price}}'>
+ 
       
       </div>
-       <button type="submit" class="btn btn-warning">Add To Cart</button>
+       <button type="submit" id="btnclick" class="btn btn-warning" onclick="getdata();" >Add To Cart</button>
      
-       <a href="{% url   'cart:buy_now' instance.pk  %}" class="btn btn-danger">Buy Now</a>
+  </form>
+  <style>
+      #btnclick{
+      width: 260px;
+      height: 50px;
+      font-family: Tahoma;
+      font-weight: bold;
+      font-size: 24px;
+      color:cornsilk;
+      line-height: 30px;
+      text-align: center;
+      }
+      
+      </style>
 
-   
-
-</form>
+<script>
+  function getdata() {
+    fname=document.getElementById("objid").value;
+    console.log(fname)
+}
+</script> -->

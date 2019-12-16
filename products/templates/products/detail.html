@@ -5,24 +5,173 @@
     <div class="row">
       <div class="col-sm">
 
-        <div class="card" style="width:400px">
+        <div class="card" style="width:40rem;">
           {% if object.image %}
           <img src='{{ object.image.url }}' class='img-fluid' /> {% endif %}
           <div class="card-body">
+
+         
             <h3>{{ object.title }}</h3>
            <p> {{ object.description|linebreaks }}</p>
            <h3>{{ object.price}}</h3>
+         
             <br/>
-
-            <a href="{% url   'cart:buy_now' object.pk  %}" class="btn btn-danger">Buy Now</a>
-          </div>
+         
+          
         </div>
       </div>
 
 
     </div>
   </div>
+
+
+  <script src =  
+  "https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"> 
+          </script> 
+
+<div class="container">
+    <h1> Size</h1>
+  
+
+    <p>Select the size of the product</p> 
+    {% for obj in object.details.all %}
+ 
+    <button class="button button5"id="{{obj.id}}" >{{obj.value}}</button>
+
+    {% endfor %}
+    <p class="clickbtn">
+    
+        <form method='POST' action='/cart/{{object.id}}/' class="form my-2 my-lg-0 search-form">
+          {% csrf_token %}
+          <div class='input-group'>
+            <input class="form-control" type="hidden" name="product_id" value='{{object.pk}}'>
+            <input class="form-control" type="hidden" name="product_title" value='{{object.title}}'>
+            <input class="form-control" type="hidden" name="product_price" value='{{object.price}}'>
+            <input type="hidden" name="sizeid" id="objid" value="">
+            
+            </div>
+            <input type="submit" data-action="reply" id="btnclick"  class="btn btn-warning"  value="Add To Cart">
+
+           
+        </form>
+        <br> 
+        {% include 'products/buynow_form.html' with instance=object %} 
+      </p>          
+  </div>      
+  </div>
+  
+
+<div>
+<p id="message" style="background-color: #ff6b6b;color: #f7fff7;width: 22%;height:50px;margin-bottom: 30px;
+font-size: 18px;
+text-align: center;"></p>
+</div>
+
 </section>
+
+  
+  
+
+
+<style>
+
+  .button {
+  background-color:red;
+  height: 70px;
+  width: 70px;
+  border: 50%;
+  color: white;
+
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  font-family: Tahoma;
+  font-weight: bold;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+#btnclick{
+  width: 260px;
+  height: 50px;
+  font-family: Tahoma;
+  font-weight: bold;
+  font-size: 24px;
+  color:cornsilk;
+  line-height: 30px;
+  text-align: center;
+  }
+
+
+.button5 
+{
+  border-radius: 50%;
+  }
+    .clickbtn{
+      margin-top: 15px;
+    }
+    </style>
+
+
+<script> 
+
+
+
+$(document).ready(function(){
+  $("#message").hide();
+  $("button").on('click',function() { 
+    var t = (this.id); 
+    document.getElementById('objid').value = t;
+    fname=document.getElementById("objid").value;
+    console.log(fname)
+  });
+
+  $("input[type='submit']").click(function(event) {
+     event.preventDefault();
+     var sizeid = $(this).parent().find("input[name='sizeid']").val();
+     var pid = $(this).parent().find("input[name='product_id']").val();
+     var ptitle = $(this).parent().find("input[name='product_title']").val();
+     var pprice = $(this).parent().find("input[name='product_price']").val();
+     if (sizeid  && pid  && ptitle &&  pprice ) {
+      $.ajax({
+        type:'POST',
+        url:'{% url "cart:cart" object.id %}',
+        dataType: 'json',
+        data:{
+            size:sizeid,
+            product_id:pid,
+            product_title:ptitle,
+            product_price:pprice,
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            action: 'post'
+        },
+        success:function(response){
+           
+        window.location.replace('{% url "products:list"  %}');
+         
+        },
+        error : function(xhr,errmsg,err) {
+         alert('i m not here')
+    }
+   
+    });
+       
+      }
+    else{
+      alert('please select the size of the product')
+    }
+      
+
+  });
+  setTimeout(function(){ $('#message').hide(); }, 4000);
+});
+
+  
+</script> 
 
 
 {% endblock %}
+
+

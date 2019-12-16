@@ -45,6 +45,8 @@ INSTALLED_APPS = [
 THIRD_PARTY_APP = [
        
     'stripe',
+    'django_filters',
+    'django_simple_coupons',
 ]
 
 LOCAL_APPS = [
@@ -55,7 +57,7 @@ LOCAL_APPS = [
     'cart.templatetags',
     'accounts',
     'address',
-
+   
     'analytics',
     
 ]
@@ -162,7 +164,7 @@ EMAIL_HOST_PASSWORD = 'mys3cr3tp4ssw0rd'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'TestSite Team <noreply@example.com>'
 
-
+DSC_COUPON_CODE_LENGTH = 16
 
 
 
@@ -201,3 +203,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 CART_SESSION_ID = '32323$5%3443'
+
+CELERY_BROKER_URL = ' https://django-email-celery-test.herokuapp.com/'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
+
+EMAIL_HOST = ''
+EMAIL_PORT = 465
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+EMAIL_USR_SSL = True
