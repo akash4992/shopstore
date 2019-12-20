@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from products import views
 admin.site.site_header = 'Shop Store'
 
 app_name = "search"
@@ -28,7 +28,7 @@ urlpatterns = [
     path('cart/', include("cart.urls",namespace="cart")),
     path('accounts/', include("accounts.urls",namespace="accounts")),
     path('address/', include("address.urls",namespace="address")),
-
+    path('coupon/', include("coupon.urls",namespace="coupon")),
     path('category/', include("category.urls",namespace="category")),
 
      

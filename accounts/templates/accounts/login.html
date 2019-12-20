@@ -1,35 +1,100 @@
 {% extends 'base/index.html' %} {% load static %} {% block pagecontent %}
 <link href="{% static  'css/main.css' %}" rel="stylesheet">
 <div class="container">
-        {% include 'accounts/messages.html' %}
-<form action="{% url 'accounts:login' %}" method="post">
+  {% include 'accounts/messages.html' %} {% if next %}
+  <form action="/accounts/login/?next={{next}}" method="post">
     {% csrf_token %}
-        <div class="imgcontainer">
-          <img src="{% static 'images/login.png'%}" alt="Avatar" class="avatar">
-        </div>
-      
-        <div class="container">
-          <label for="uname"><b>Username</b></label>
-          <input type="text" placeholder="Enter Email" id='name' name="username" required>
-      
-          <br> <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" id='psw' name="password" required>
-      
-          <br><button type="submit">Login</button>
-          
-</form>
-<h4 style="color:red">You Dont have Account Yet!</h4>
-          
-          
-        </div>
-        <br> <a href="{% url 'accounts:register' %}"><button  class="registerbtn2" >Resgister</button></a>
-        <div class="container" style="background-color:#f1f1f1" id='login'>
-            <a href="{% url 'products:list' %}" class="btn btn-danger">Cancel</a>
-        
-          <span class="psw">Forgot <a href="{% url 'accounts:login'  %}">password?</a></span>
-        </div>
+    <div class="imgcontainer">
+      <img src="{% static 'images/login.png'%}" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="container">
+      <label for="uname">
+        <b>Username</b>
+      </label>
+      <input type="text" placeholder="Enter Email" id='name' name="username" required>
+
+      <br>
+      <label for="psw">
+        <b>Password</b>
+      </label>
+      <input type="password" placeholder="Enter Password" id='psw' name="password" required>
+
+      <br>
+      <button type="submit">Login</button>
+
+  </form>
+  <h4 style="color:red">You Dont have Account Yet!</h4>
+
+
+    </div>
+    <br>
+    <a href="{% url 'accounts:register' %}">
+      <button class="registerbtn2">Resgister</button>
+    </a>
+    <div class="container" style="background-color:#f1f1f1" id='login'>
+      <a href="{% url 'products:list' %}" class="btn btn-danger">Cancel</a>
+
+      <span class="psw">Forgot
+        <a href="{% url 'accounts:login'  %}">password?</a>
+      </span>
+    </div>
+    {%else%}
+    <form action="{% url 'accounts:login' %}" method="post">
+      {% csrf_token %}
+      <div class="imgcontainer">
+        <img src="{% static 'images/login.png'%}" alt="Avatar" class="avatar">
+      </div>
+
+      <div class="container">
+        <label for="uname">
+          <b>Username</b>
+        </label>
+        <input type="text" placeholder="Enter Email" id='name' name="username" required>
+
+        <br>
+        <label for="psw">
+          <b>Password</b>
+        </label>
+        <input type="password" placeholder="Enter Password" id='psw' name="password" required>
+
+        <br>
+        <button type="submit">Login</button>
+
+    </form>
+    <h4 style="color:red">You Dont have Account Yet!</h4>
+
+
+    </div>
+    <br>
+    <a href="{% url 'accounts:register' %}">
+      <button id="registerbutton">Register</button></a>
+
+  
+    <div class="container" style="background-color:#f1f1f1" id='login'>
+      <a href="{% url 'products:list' %}" class="btn btn-danger">Cancel</a>
+
+      <span class="psw">Forgot
+        <a href="{% url 'accounts:login'  %}">password?</a>
+      </span>
+    </div>
 
 </div>
+{% endif %}
+
+
+
+<style>
+
+    #registerbutton  {
+    background-color: rgb(86, 76, 175);
+    
+      width: 450px;
+      color: white;
+      padding: 15px 24px;
+      margin: 12px 15px 25px 5px;;
+      cursor: pointer;
+     
+  }
+  </style>
 {% endblock %}
-
-

@@ -1,0 +1,41 @@
+<html>
+
+<head>
+  <title>Website</title>
+  <meta charset="UTF-8">
+</head>
+  <body>
+    <h1>hello</h1>
+    <a href="#eng" data-reload>English</a>
+    <a href="#es" data-reload>Espanol</a>
+    <p id='h1'>
+      Welcome EveryOne!
+    </p>
+
+
+    <script>
+      var dataReload = document.querySelectorAll("[dataReloa]");
+
+     var language ={
+       eng:{
+         welcome:'Welcome Everyone'
+       },
+       es:{
+        welcome:'Bievenidos todos!' 
+       }
+     };
+     if(window.location.hash){
+       if (window.location.hash==='#es'){
+          h1.textContent = language.es.welcome;
+       }
+    }
+    for (i=0;i<=dataReload.length;i++){
+      dataReload[i].onclick = function(){
+          location.reload(true);
+      };
+    }
+    </script>
+  </body>
+
+
+</html>

@@ -1,0 +1,18 @@
+
+
+<section>
+    <div class="right">
+      <h3>Apply Coupon</h3>
+      {% for obj in coupon  %}
+      <p>Use Promo Code: 
+    <span class="promo">{{obj.code}}</span></p>
+    <p>Valid To:<span class="expire">{{obj.valid_to}}</span></p>
+    {%  empty %}
+    <p>There is no coupon available</p>    
+     
+    {% endfor  %}
+      
+   
+        
+   </div>
+  </section>

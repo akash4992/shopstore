@@ -46,7 +46,8 @@ THIRD_PARTY_APP = [
        
     'stripe',
     'django_filters',
-    'django_simple_coupons',
+ 
+
 ]
 
 LOCAL_APPS = [
@@ -57,7 +58,7 @@ LOCAL_APPS = [
     'cart.templatetags',
     'accounts',
     'address',
-   
+    'coupon',
     'analytics',
     
 ]
@@ -73,6 +74,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -103,7 +105,11 @@ LOGIN_URL_REDIRECT = ''
 LOGOUT_URL = 'accounts:login'
 LOGIN_URL = '/accounts/login/'
 
-  
+
+
+
+
+
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -183,7 +189,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

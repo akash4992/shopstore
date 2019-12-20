@@ -14,6 +14,8 @@ from django.db import IntegrityError
 from django.http import Http404
 from django.contrib.auth.models import AnonymousUser
 from django.http import JsonResponse
+from coupon.models import Coupons
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 # Create your vews here.
 
@@ -28,7 +30,13 @@ def get_user_pending_order(request,key):
         if order.exists():
             return order[0]
         return 0
-        
+
+def updateorder(request,user_profile):
+   
+    return OrderProduct.objects.create(owner=user_profile)
+
+
+
    
 
 # @login_required(login_url='/accounts/login/')
@@ -93,11 +101,12 @@ def buy_now(request,**kwargs):
 
 def order_details(request, **kwargs):
     key = request.session.get('cart_id')
-   
+
     existing_order = get_user_pending_order(request,key)
     print("the order",existing_order)
     context = {
-        'order': existing_order
+        'order': existing_order,
+     
     }
     return render(request, 'cart/home.html', context)
 
@@ -173,15 +182,22 @@ def checkout(request, **kwargs):
 @login_required()
 def update_transaction_records(request, token):
     key = request.session.get('cart_id')
-  
+    
     order_purchase = get_user_pending_order(request,key)
     order_purchase.is_ordered=True
+    
     order_purchase.date_ordered=datetime.datetime.now()
     order_purchase.save()
     
+    user_profile = get_object_or_404(User, username=request.user.username)
+    # user = OrderProduct.objects.filter(owner=None).update(owner=user_profile)
+    
+
+
     order_items = order_purchase.items.all()
     order_items.update(is_ordered=True, date_ordered=datetime.datetime.now())
-    user_profile = get_object_or_404(User, username=request.user.username)
+    
+   
     amount = order_purchase.get_cart_total()
     transaction = Transaction(username = user_profile,
                             token=token,
@@ -194,6 +210,7 @@ def update_transaction_records(request, token):
 
     # send an email to the customer
     # look at tutorial on how to send emails with sendgrid
+
     messages.info(request, "Thank you! Your purchase was successful!")
     return redirect(reverse('accounts:my_profile'))
 
@@ -207,59 +224,12 @@ def success(request, **kwargs):
 
 
 
-# def add_to_cart(request,**kwargs):
-#     request.session.set_expiry(864000)
-    
-    
-#     if request.POST.get('action') == 'post':
-#         size = request.POST.get('size')
-#         import pdb; pdb.set_trace()
-#         product_id=request.POST['product_id']
-#         product =  Product.objects.filter(id=product_id).first()
-#         product_title = request.POST['product_title']
-#         product_price = request.POST['product_price']
-     
-#         data  = ProductCart(product =product,
-#                             amount=product_price,
-#                             productname= product_title,
-#                             is_ordered=  False, )
-#         data.ref_code = generate_order_id()
-#         try:
-#             data.save()
-#         except:
-#             pass
-    
-        
-#         cart = settings.CART_SESSION_ID
-#         the_id = request.session['cart_id'] = cart
-#     if not request.user.is_authenticated:
-#         order_item ,created = ProductCart.objects.get_or_create(product=product_id)
-#         user_order,created = OrderProduct.objects.get_or_create(defaults = {'owner': None},is_ordered=False,session_key=the_id)
-#         user_order.items.add(order_item)
-#         user_order.ref_code = generate_order_id()
-#         user_order.save()
-        
-#     else:
-#         user_profile = get_object_or_404(User,pk= request.user.pk)
-#         if user_profile:
-#             user_profile = get_object_or_404(User,pk= request.user.pk)
-#             order_item ,created = ProductCart.objects.get_or_create(product=product_id)
-#             user_order,created = OrderProduct.objects.get_or_create(owner=user_profile ,is_ordered=False,defaults = {'session_key': the_id})
-            
-
-#             user_order.items.add(order_item)
-#             user_order.ref_code = generate_order_id()
-#             user_order.save()
-        
-#     messages.success(request, "item added to cart")
-        
-#     return redirect(reverse('products:list'))
 
 
 def add_to_cart(request,**kwargs):
     request.session.set_expiry(864000)
-    
-
+    coupon_id =request.session.get('coupon_id')
+ 
     if request.POST.get('action') == 'post':
         psize = request.POST.get('size')
         
@@ -279,7 +249,7 @@ def add_to_cart(request,**kwargs):
                              )
         update.ref_code = generate_order_id()
         if data:
-            update.Quantity = update.Quantity+1
+            update.Quantity = update.Quantity
             update.save()
         else:
             update.save()
@@ -289,21 +259,30 @@ def add_to_cart(request,**kwargs):
         cart = settings.CART_SESSION_ID
         the_id = request.session['cart_id'] = cart
     if not request.user.is_authenticated:
+        coupon = Coupons.objects.get(id=coupon_id)
+        discount = coupon.discount
+        
         order_item ,created = ProductCart.objects.get_or_create(product=product_id)
-        user_order,created = OrderProduct.objects.get_or_create(defaults = {'owner': None},is_ordered=False,session_key=the_id)
+        user_order,created = OrderProduct.objects.get_or_create(defaults = {'owner': None},is_ordered=False,session_key=the_id,code=coupon,discount=discount)
         user_order.items.add(order_item)
+        
+      
         user_order.ref_code = generate_order_id()
         user_order.save()
         
     else:
         user_profile = get_object_or_404(User,pk= request.user.pk)
         if user_profile:
+            coupon = Coupons.objects.get(id=coupon_id)
+            discount = coupon.discount
+        
             user_profile = get_object_or_404(User,pk= request.user.pk)
             order_item ,created = ProductCart.objects.get_or_create(product=product_id)
-            user_order,created = OrderProduct.objects.get_or_create(owner=user_profile ,is_ordered=False,defaults = {'session_key': the_id})
+            user_order,created = OrderProduct.objects.get_or_create(owner=user_profile ,code=coupon,discount=discount,is_ordered=False,defaults = {'session_key': the_id})
             
 
             user_order.items.add(order_item)
+     
             user_order.ref_code = generate_order_id()
             user_order.save()
     messages.success(request, "item added to cart")     

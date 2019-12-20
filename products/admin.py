@@ -6,6 +6,7 @@ from .models import Product,Productsize
 
 
 class ProductAdmin(admin.ModelAdmin):
+
     list_display = ['title','description', 'price', 'image','active','is_digital']
 
     class Meta:
@@ -16,6 +17,7 @@ class ProductSizeAdmin(admin.ModelAdmin):
 
     class Meta:
         model = Productsize
+
 
 
 
