@@ -27,9 +27,8 @@ DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = ["*"]
 
-
 # Application definition
-
+GEOIP_PATH = os.path.join(BASE_DIR, 'geoip2')
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+  
     
 
   
@@ -46,8 +46,8 @@ THIRD_PARTY_APP = [
        
     'stripe',
     'django_filters',
- 
-
+    "channels",
+   
 ]
 
 LOCAL_APPS = [
@@ -65,19 +65,15 @@ LOCAL_APPS = [
 
 INSTALLED_APPS += THIRD_PARTY_APP + LOCAL_APPS
 
-
-
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
 ROOT_URLCONF = 'ecommerce.urls'
 
 TEMPLATES = [
@@ -99,6 +95,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
+ASGI_APPLICATION = "ecommerce.routing.application"
 AUTH_USER_MODEL = 'accounts.User' #changes the built-in user model to ours
 LOGIN_URL = '/login/'
 LOGIN_URL_REDIRECT = ''
@@ -170,9 +167,6 @@ EMAIL_HOST_PASSWORD = 'mys3cr3tp4ssw0rd'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'TestSite Team <noreply@example.com>'
 
-DSC_COUPON_CODE_LENGTH = 16
-
-
 
 
 
@@ -220,3 +214,18 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 EMAIL_USR_SSL = True
+
+
+
+DSC_COUPON_CODE_LENGTH = 16
+
+TWILIO_ACCOUNT_SID = "AC8fd5c2e38c89ef686e61b86446ed0937"
+TWILIO_AUTH_TOKEN = "b40f6b7b9b35919b10f6ed550243a4fc"
+TWILIO_NUMBER = "(801) 701-1127"
+#  +18017011127
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {"hosts": [("localhost", 6379)]},
+    }
+}

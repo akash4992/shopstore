@@ -2,11 +2,12 @@ from django.db import models
 from accounts.models import User
 from django.urls import reverse
 ADDRESS_TYPES = (
-
+    ('home', 'Home address'),
     ('shipping', 'Shipping address'),
 )
 
 class Address(models.Model):
+   
     address_profile = models.ForeignKey(User,on_delete=models.CASCADE)
     name            = models.CharField(max_length=120, null=True, blank=True, help_text='Shipping to? Who is it for?')
     nickname        = models.CharField(max_length=120, null=True, blank=True, help_text='Internal Reference Nickname')
@@ -46,3 +47,12 @@ class Address(models.Model):
                 postal= self.postal_code,
                 country = self.country
             )
+
+
+class ShippingAddress(models.Model):
+    address = models.ForeignKey(Address,on_delete=models.CASCADE)
+
+
+
+    def __str__(self):
+        return str(self.address)

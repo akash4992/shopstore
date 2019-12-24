@@ -15,7 +15,9 @@ from django.http import Http404
 from django.contrib.auth.models import AnonymousUser
 from django.http import JsonResponse
 from coupon.models import Coupons
-
+from address.models import Address                                                                                                                                                   
+from django.http import HttpResponse
+from twilio.rest import Client
 stripe.api_key = settings.STRIPE_SECRET_KEY
 # Create your vews here.
 
@@ -212,7 +214,7 @@ def update_transaction_records(request, token):
     # look at tutorial on how to send emails with sendgrid
 
     messages.info(request, "Thank you! Your purchase was successful!")
-    return redirect(reverse('accounts:my_profile'))
+    return redirect(reverse('cart:broad_sms'))
 
 
 def success(request, **kwargs):
@@ -291,6 +293,21 @@ def add_to_cart(request,**kwargs):
     
 
 	
+
+@login_required()
+def broadcast_sms(request):
+    user_id = request.user.pk
+    ref_id = OrderProduct.objects.get(owner=user_id).ref_code
+  
+    message_to_broadcast = ("Hello Thanx for shoping with us your  order id is {0}".format(ref_id))
+    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+ 
+    recipient = Address.objects.get(address_profile=user_id ).mobile_no
+    if recipient:
+            client.messages.create(to=recipient,
+                                   from_=settings.TWILIO_NUMBER,
+                                   body=message_to_broadcast)
+    return redirect(reverse('accounts:my_profile'))
     
   
 

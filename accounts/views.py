@@ -14,7 +14,7 @@ from django.views.generic.base import RedirectView
 from django.contrib.auth.views import LoginView
 from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
-from django.shortcuts import render_to_response
+
 from django.template import RequestContext
 from cart.models import OrderProduct
 from .models import User
@@ -24,7 +24,6 @@ def my_profile(request):
   
     key = request.session.get('cart_id')
     my_user_profile =  User.objects.filter(username=request.user.username).first()
-
     my_orders = OrderProduct.objects.filter(session_key=key,is_ordered=True,owner=my_user_profile) 
     context ={
         "my_orders":my_orders
@@ -125,3 +124,8 @@ def login_request(request):
 
 
 
+from django.views.generic import TemplateView
+
+
+class HomeView(TemplateView):
+    template_name = "accounts/home.html"

@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Address
+from .models import Address,ShippingAddress
 
 
 class AddressForm(forms.ModelForm):
@@ -20,4 +20,16 @@ class AddressForm(forms.ModelForm):
             'state',
             'postal_code',
             'mobile_no'  
+        ]
+
+
+class ShippingAddressForm(forms.ModelForm):
+    """
+    User-related CRUD form
+    """
+    class Meta:
+        model =  ShippingAddress
+        fields = [
+            'address'
+          
         ]

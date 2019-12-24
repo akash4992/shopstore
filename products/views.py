@@ -61,47 +61,6 @@ class ProductListView(ListView):
         return Product.objects.all()
 
 
-# class ProductDetailView(DetailView):
-#     #queryset = Product.objects.all()
-#     template_name = "products/detail.html"
-
-#     def get_context_data(self, *args, **kwargs):
-#         context = super(ProductDetailView, self).get_context_data(*args, **kwargs)
-        
-#         return context
-
-#     def get_object(self, *args, **kwargs):
-#         request = self.request
-#         pk = self.kwargs.get('pk')
-#         instance = Product.objects.get(id=pk)
-        
-#         if instance:
-#             view,created  = View.objects.get_or_create(
-#                 product=instance
-#             )
-#             if view:
-#                 if not request.user.is_authenticated:
-               
-#                     view.view_counts +=1
-                            
-#                     view.save()
-#                     return instance
-#                 else:
-#                     view.user.add(request.user)
-#                     view.view_counts +=1
-#                     view.save()
-#                     return instance
-#         else:
-#             raise Http404("Product doesn't exist")
-            
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         coupon =   Coupons.objects.all()
-#         form = CouponForm()
-    
-#         context['coupon'] =  coupon
-#         context['form'] =  form
-#         return context
 
 
 class ProductDetailView(View):

@@ -11,7 +11,7 @@ urlpatterns = [
     re_path('update-transaction/(?P<token>[-\w]+)/', views.update_transaction_records,
         name='update_records'),
     path('buy_now/<int:pk>/', views.buy_now,name='buy_now'),
-
+    path('broadcast', views.broadcast_sms, name="broad_sms"),
     
     
     

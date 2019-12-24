@@ -2,18 +2,34 @@
 <section>
     <div class="container">
         <div class="row">
-            {% for obj in object_list %}
+            {% for obj in instance %}
             <div class="col-sm">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h4 class="card-title">{{ obj }}</h4>
                         <h3>Address</h5>
+                            
+                                              
+            
+                            {% csrf_token %}                                
                             <br/>
-                            <input type="radio" name="names" value={{ obj.id}}>{{ obj.get_address }}
+                            <input type="radio" id="address" name="names" value={{ obj.id}}>{{ obj.get_address }}
+                          
+                            
                             <br/>
-                            <a href='{{ obj.get_absolute_url }}' class="btn btn-primary">Edit</a>
+                            
                             {% if forloop.counter >= 1 %}
-                            <a href="{% url  'cart:checkout' %}" class="btn btn-primary" id="paybtn" role="button">PayNow</a>
+                         
+
+                            <form method="post" action="address:address"></form>
+
+
+                            <input type="hidden" name="addressname" id="address_id" value="">
+                            <a href='{{ obj.get_absolute_url }}' class="btn btn-primary">Edit</a>
+                            <input type="button" data-action="reply" id="addressclick"  class="btn btn-warning"  value="PayNow">
+                            
+                            </form>
+                           
                             {% endif %}
                     </div>
                 </div>
@@ -31,4 +47,64 @@
         </div>
     </div>
 </section>
+
+
+<script src =  
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"> 
+        </script> 
+
+
+<script>
+        $(document).ready(function(){
+            $("#address").on('click',function() { 
+                var radioValue = $("input[name='names']:checked").val();
+                if(radioValue){
+                    document.getElementById('address_id').value = radioValue;
+                    fname=document.getElementById("address_id").value;
+                    console.log(fname)
+                    
+                }
+            });
+        
+      $("input[type='button']").click(function(event) {
+         event.preventDefault();
+         var addressid = $(this).parent().find("input[name='addressname']").val();
+         
+         
+         if (addressid) {
+          $.ajax({
+            type:'POST',
+            url:'{% url "address:address_list"  %}',
+            dataType: 'json',
+            data:{
+                address:addressid,
+               
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+               
+            },
+            success:function(response){
+               
+              alert("success")
+             
+            },
+            error : function(xhr,errmsg,err) {
+                window.location.replace('{% url "cart:checkout"  %}');
+        }
+       
+        });
+           
+          }
+        else{
+          alert('please select the address')
+        }
+          
+    
+      });
+   
+    
+    });
+    
+    
+    </script>
+
 {% endblock %}
