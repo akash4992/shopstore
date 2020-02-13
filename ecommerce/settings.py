@@ -47,6 +47,7 @@ THIRD_PARTY_APP = [
     'stripe',
     'django_filters',
     "channels",
+    "fcm_django"
    
 ]
 
@@ -103,6 +104,9 @@ LOGOUT_URL = 'accounts:login'
 LOGIN_URL = '/accounts/login/'
 
 
+FCM_DJANGO_SETTINGS = {
+"FCM_SERVER_KEY": "[your api key]"
+}
 
 
 
