@@ -30,7 +30,7 @@ class ProductManager(models.Manager):
         return self.get_queryset().featured()
 
     def get_by_id(self, id):
-        qs = self.get_queryset().filter(id=id) # Product.objects == self.get_queryset()
+        qs = self.get_queryset().filter(id=id) 
         if qs.count() == 1:
             return qs.first()
         return None
