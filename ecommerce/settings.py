@@ -45,9 +45,7 @@ INSTALLED_APPS = [
 THIRD_PARTY_APP = [
        
     'stripe',
-    'django_filters',
-    "channels",
- 
+   
    
 ]
 
