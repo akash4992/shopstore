@@ -1,8 +1,6 @@
 from django.db import models
 from django.db.models import Q
 from category.models import CategoryType
-from django.urls import reverse
-
 # Create your models here.
 class ProductQuerySet(models.query.QuerySet):
     def active(self):
@@ -30,7 +28,7 @@ class ProductManager(models.Manager):
         return self.get_queryset().featured()
 
     def get_by_id(self, id):
-        qs = self.get_queryset().filter(id=id) 
+        qs = self.get_queryset().filter(id=id) # Product.objects == self.get_queryset()
         if qs.count() == 1:
             return qs.first()
         return None
@@ -46,32 +44,12 @@ class Product(models.Model):
     description     = models.TextField()
     price           = models.DecimalField(decimal_places=2, max_digits=20, default=39.99)
     image           = models.ImageField(upload_to='images/') 
-
+    featured        = models.BooleanField(default=False)
     active          = models.BooleanField(default=True)
     timestamp       = models.DateTimeField(auto_now_add=True)
     category        = models.ForeignKey(CategoryType,on_delete=models.CASCADE)
     is_digital      = models.BooleanField(default=False) # User Library
-    created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
- 
+    objects = ProductManager()
     
     def __str__(self):
         return self.title
-
-
-    
-    
-    def get_absolute_url(self):
-              return reverse('products:list',kwargs={'slug': self.slug})
-
-class Productsize(models.Model):
-    product= models.ForeignKey(Product,on_delete=models.CASCADE,related_name='details')
-    value = models.CharField(max_length=50)
-    stock= models.IntegerField(default=1)
-    items_sold = models.IntegerField(default=0)
-
-
-    def __str__(self):
-        return self.value 
-    class Meta:
-        ordering = ('value',)
-

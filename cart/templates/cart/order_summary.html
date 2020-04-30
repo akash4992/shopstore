@@ -12,7 +12,7 @@
         <tr>
           <td>{{ forloop.counter }}</td>
           <td>
-            {{ item.product.title }}
+            {{ item.product.name }}
             <span class="pull-right">
               <a href="{% url 'cart:delete_item' item.id %}" data-balloon="remove this item from cart" class="text-danger" onclick="return confirm_delete();">
                 <i class="fas fa-trash"></i>
@@ -53,7 +53,6 @@
      
    </div>
  </section>
-
 {% endblock %}
 
 {% block scripts %}

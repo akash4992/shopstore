@@ -1,110 +1,46 @@
-{% extends 'base/index.html' %} {% load static %} {% block pagecontent %} {% include 'accounts/messages.html' %}
-<section>
-    <div class="container">
-        <div class="row">
-            {% for obj in instance %}
-            <div class="col-sm">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ obj }}</h4>
-                        <h3>Address</h5>
-                            
-                                              
-            
-                            {% csrf_token %}                                
-                            <br/>
-                            <input type="radio" id="address" name="names" value={{ obj.id}}>{{ obj.get_address }}
-                          
-                            
-                            <br/>
-                            
-                            {% if forloop.counter >= 1 %}
-                         
-
-                            <form method="post" action="address:address"></form>
+{% extends 'base/index.html' %} {% load static %} {% block pagecontent %}
+  
+{% include 'accounts/messages.html' %}
+<div class="container">
+    <div class="row">
+    {% for obj in object_list %}
+        <div class='col-12 col-md-3 my-3'>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{{ obj }}</h4>
+                    <h3>Address</h5>
+                        <br/>
+                        <small>{{ obj.get_address }}</small>
+                        <br/>
+                        <a href='{{ obj.get_absolute_url }}'class="btn btn-primary">Edit</a>
+                        {% if  forloop.counter >= 1 %}
+                        <a href="{% url  'cart:checkout' %}" class="btn btn-primary" id="paybtn" role="button">PayNow</a>
+                        {% endif %}
 
 
-                            <input type="hidden" name="addressname" id="address_id" value="">
-                            <a href='{{ obj.get_absolute_url }}' class="btn btn-primary">Edit</a>
-                            <input type="button" data-action="reply" id="addressclick"  class="btn btn-warning"  value="PayNow">
-                            
-                            </form>
-                           
-                            {% endif %}
-                    </div>
+
                 </div>
             </div>
-            <div class="col-lg-12">
-                <p class='lead text-center'>
-                    <a href='{% url "address:address" %}' class="btn btn-primary">Create New</a>
-                </p>
-            </div>
-            {% empty %}
-            <p class='lead text-center'>
-                <a href='{% url "address:address" %}' class="btn btn-primary">Create New</a>
-            </p>
-            {% endfor %}
         </div>
+
     </div>
-</section>
+    <div class="col-lg-12">
+ 
+      
 
-
-<script src =  
-"https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"> 
-        </script> 
-
-
-<script>
-        $(document).ready(function(){
-            $("#address").on('click',function() { 
-                var radioValue = $("input[name='names']:checked").val();
-                if(radioValue){
-                    document.getElementById('address_id').value = radioValue;
-                    fname=document.getElementById("address_id").value;
-                    console.log(fname)
-                    
-                }
-            });
-        
-      $("input[type='button']").click(function(event) {
-         event.preventDefault();
-         var addressid = $(this).parent().find("input[name='addressname']").val();
-         
-         
-         if (addressid) {
-          $.ajax({
-            type:'POST',
-            url:'{% url "address:address_list"  %}',
-            dataType: 'json',
-            data:{
-                address:addressid,
-               
-                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-               
-            },
-            success:function(response){
-               
-              alert("success")
-             
-            },
-            error : function(xhr,errmsg,err) {
-                window.location.replace('{% url "cart:checkout"  %}');
-        }
+        <p class='lead text-center'>
+            <a href='{% url "address:address" %}' class="btn btn-primary">Create New</a>
        
-        });
-           
-          }
-        else{
-          alert('please select the address')
-        }
-          
-    
-      });
-   
-    
-    });
-    
-    
-    </script>
+       
+        </p> 
+    </div>
+</div>
+{% empty %}
+<p class='lead text-center'>
+    <a href='{% url "address:address" %}' class="btn btn-primary">Create New</a>
+</p>
+{% endfor %}
+
+</div>
 
 {% endblock %}

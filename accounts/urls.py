@@ -12,9 +12,9 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(
         next_page=reverse_lazy('accounts:login'),
     ), name='logout'),
-    path('profile/', views.my_profile, name='my_profile'),
+    path('profile/', views.my_profile, name='my_profile')
     
-    path('notify/', views.HomeView.as_view(), name='notifyme')
+    
   
     
 ]

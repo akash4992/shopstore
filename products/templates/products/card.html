@@ -1,5 +1,4 @@
 {% load static %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <div class="col-md-4">
   <div class="card" style="width: 25rem;">
     {% if instance.image %}
@@ -8,24 +7,13 @@
     </a>
     {% endif %}
     <div class="card-body">
-  
-      <h4 class="card-title" id ="title">{{ instance.product.title }}</h4>
+      <h4 class="card-title" >{{ instance.title }}</h4>
       <p class="card-text">{{ instance.description|linebreaks|truncatewords:14 }}</p>
-      <h4 class="card-price" id ="products">{{ instance.price }}</h4>
-    
-      <div>
-     
+      <h4 class="card-title" id="btnAdd">{{ instance.price }}</h4>
 
-
-    </div>
+      <a href="/cart/{{instance.pk}}"  class="btn btn-warning" onclick="addToCart()">Add To Cart</a>
+      <a href="{% url   'cart:buy_now' instance.pk  %}" class="btn btn-danger ">Buy Now</a>
+      
     </div>
   </div>
 </div>
-  
-
-<style>
-
-.card{
- margin-top: 20px;
-}
-</style>
